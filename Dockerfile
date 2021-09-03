@@ -1,5 +1,8 @@
 FROM ubuntu_18_04-base
-MAINTAINER David Laube <dlaube@packet.net>
-LABEL Description="Packet's ubuntu_16_04-t1.small.x86 OS image" Vendor="Packet.net"
+MAINTAINER Oli Dacombe <olidacombe@gmail.com>
+LABEL Description="ubuntu_16_04-t1.small.x86 with docker, dnsmasq, 8021q"
 
-## HW specific image modifications go in this file
+RUN apt-get update
+RUN echo DNSStubListener=no >> /etc/systemd/resolved.conf
+RUN apt-get -y install dnsmasq-base dnsutils docker
+RUN echo 8021q >> /etc/modules-load.d/networking.conf
