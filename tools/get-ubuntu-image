@@ -83,7 +83,7 @@ statusf=$(mktemp -t get-ubuntu-image-keys-XXXXXX)
 
 set +o pipefail
 gpg --keyid-format long --verify SHA256SUMS.gpg SHA256SUMS 2>&1 | \
-grep -oP "(?<=key\s)[A-Z0-9]+" > "$statusf"
+ggrep -oP "(?<=key\s)[A-Z0-9]+" > "$statusf"
 set -o pipefail
 
 msg "Fetching keys"

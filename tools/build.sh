@@ -94,20 +94,21 @@ if [[ -n ${branch:-} ]]; then
 
 	mv "work/$distro-$plan/"* .
 	mv "$distro-$plan-image.tar.gz" image.tar.gz
-	./tools/"archive-$os" image.tar.gz ./
+	./tools/"archive-${os}.kept" image.tar.gz $(realpath .)
 	ls -al
 	git lfs track *.tar.gz
-	OLDIMAGE=$(git ls-remote | grep "refs/heads/$distro-$plan" | awk {'print $1'})
-	if [[ -z $OLDIMAGE ]] ; then
-        	echo "No OLDIMAGE set! Skipping image compare"
-	else
-        	echo "OLDIMAGE set"
-		echo "Generating CHANGELOG based on previous image $OLDIMAGE"
-		touch CHANGELOG
-		./tools/compare-$os $OLDIMAGE >> CHANGELOG
-	fi
+ # OLDIMAGE=$(git ls-remote | grep "refs/heads/$distro-$plan" | awk {'print $1'})
+ # if [[ -z $OLDIMAGE ]] ; then
+ #       	echo "No OLDIMAGE set! Skipping image compare"
+ # else
+ #       	echo "OLDIMAGE set"
+ #   echo "Generating CHANGELOG based on previous image $OLDIMAGE"
+ #   touch CHANGELOG
+ #   ./tools/compare-${os}.kept $OLDIMAGE >> CHANGELOG
+ # fi
 
-	git add *.tar.gz Dockerfile .gitattributes CHANGELOG
+	#git add *.tar.gz Dockerfile .gitattributes CHANGELOG
+	git add *.tar.gz Dockerfile .gitattributes
 
 	#echo "commiting and tagging"
 	#git add -u

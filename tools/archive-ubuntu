@@ -3,7 +3,7 @@
 # ./script ./image.tar.gz ./mytars
 
 IMAGE=$1
-OUTDIR=$2
+OUTDIR=$(realpath "$2")
 
 #IMAGETMP=$(mktemp -d -t image-XXXXXXX)
 IMAGETMP=image-temp
@@ -31,14 +31,14 @@ echo "Archive dir is: $OUTDIR"
 echo "Archiving kernel..."
 cp $KERNEL $tmp/boot
 mv $tmp/boot/vmlinuz-$KERNELVER $tmp/boot/vmlinuz
-tar -czf $OUTDIR/kernel.tar.gz -C $tmp/boot ./vmlinuz --totals --checkpoint=.1000
+tar --totals -czf $OUTDIR/kernel.tar.gz -C $tmp/boot ./vmlinuz
 
 echo "Archiving initrd..."
 cp $INITRD $tmp/boot
 mv $tmp/boot/initrd.img-$KERNELVER $tmp/boot/initrd
-tar -czf $OUTDIR/initrd.tar.gz -C $tmp/boot ./initrd --totals --checkpoint=.1000
+tar --totals -czf $OUTDIR/initrd.tar.gz -C $tmp/boot ./initrd
 
 echo "Archiving modules..."
-tar -czf $OUTDIR/modules.tar.gz $IMAGETMP/lib/modules/$KERNELVER --totals --checkpoint=.1000
+tar --totals -czf $OUTDIR/modules.tar.gz $IMAGETMP/lib/modules/$KERNELVER
 
 rm -rf $IMAGETMP

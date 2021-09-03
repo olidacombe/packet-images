@@ -1,2 +1,3 @@
 SHA256SUMS*
 qemu-aarch64-static*
+tools/*.kept
